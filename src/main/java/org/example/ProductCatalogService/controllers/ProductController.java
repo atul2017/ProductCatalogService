@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,16 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
+        List<Product> products = productService.getAllProducts();
+        List<ProductDto> productDtos = new ArrayList<>();
+        if(products == null || !products.isEmpty()) {
+            for (Product product : products) {
+                ProductDto productDto = from(product);
+                productDtos.add(productDto);
+            }
+           return productDtos;
+        }
         return null;
     }
 
