@@ -44,15 +44,39 @@ public class ProductController {
             if(product == null) return null;
             return new ResponseEntity<>(from(product), HttpStatus.OK);
        } catch (RuntimeException e) {
-           return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+           //return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+           throw e;
        }
 
     }
 
+    @PutMapping("/products/{id}")
+    public ProductDto replaceProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
+            Product product = productService.replaceProduct(id,from(productDto));
+            return from(product);
+    }
+
     @PostMapping("/products")
     public ProductDto createProduct(@RequestBody ProductDto product){
-        return null;
+        Product product1 = productService.createProduct(from(product));
+        return from(product1);
     }
+
+    private Product from(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setTitle(productDto.getTitle());
+        product.setAmount(productDto.getAmount());
+        product.setImageUrl(productDto.getImageUrl());
+        product.setDescription(productDto.getDescription());
+        if(productDto.getCategory() != null){
+            Category category = new Category();
+            category.setName(productDto.getCategory().getName());
+            product.setCategory(category);
+        }
+        return product;
+    }
+
 
     private ProductDto from (Product product){
         ProductDto productDto = new ProductDto();
@@ -70,5 +94,4 @@ public class ProductController {
         }
       return productDto;
     }
-
 }
