@@ -71,6 +71,7 @@ public class ProductController {
         product.setDescription(productDto.getDescription());
         if(productDto.getCategory() != null){
             Category category = new Category();
+            category.setId(productDto.getCategory().getId());
             category.setName(productDto.getCategory().getName());
             product.setCategory(category);
         }
