@@ -1,0 +1,27 @@
+FetchType        FetchMode         Results
+
+LAZY             Select            Asked for products - Queries - Two select queries
+                                   Not asked for products - Queries - One select query
+
+EAGER            Select            Asked for products - Queries - Two select queries
+                                   Not asked for products - Queries - Two select queries
+
+LAZY             Join              Asked for products - Queries - One join query
+                                   Not asked for products - Queries - One join query
+
+EAGER            Join              Asked for products - Queries - One join query
+                                   Not asked for products - Queries - One join query
+
+LAZY             SubSelect         Asked for products - Queries - Two select query
+                                   Not asked for products - Queries - One select query
+
+EAGER            SubSelect         Asked for products - Queries - Two select query
+                                   Not asked for products - Queries - Two select query
+
+# By default the fetch type is Lazy.
+# If we have specified Select as fetch mode, it will be used to get data, FetchType will be honored as it is.
+# join + lazy = eager
+# In scenarios, where we are asking for one category, it will not run any SUBSELECT queries because that case can be handled with two select queries
+# If fetch mode is join, fetch type does not matter
+# If fetch mode is select and subselect, fetch type does matter
+
